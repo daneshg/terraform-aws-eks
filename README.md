@@ -1,6 +1,6 @@
 ## Terraform_aws_eks_modules
 
-These terraform modules can be used to create EKS cluster and ALB.
+These terraform modules can be used to create managed Kubernetes cluster(EKS) and ALB in AWS.
 
 There are two approaches to create ALB to EKS cluster
    * Using ALB Ingress controller
