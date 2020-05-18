@@ -1,4 +1,4 @@
-## terraform_aws_eks_modules
+## Terraform_aws_eks_modules
 
 These terraform modules can be used to create eks cluster and alb.
 
