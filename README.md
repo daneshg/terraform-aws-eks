@@ -1,4 +1,4 @@
-## terraform-aws-eks
+## terraform_aws_eks_modules
 
 These terraform modules can be used to create managed Kubernetes cluster(EKS) and ALB in AWS.
 
