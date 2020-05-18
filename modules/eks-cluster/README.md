@@ -18,7 +18,9 @@ Input parameters
      * ec2_ssh_key    : SSH key to login (*required)
 
 
-      module "cutom_eks_cluster" {
+Example: 
+
+    module "cutom_eks_cluster" {
         source = "./eks-cluster"
     
         cluster_name = "test-cluster12042020"
@@ -42,4 +44,4 @@ Input parameters
             }
           },
         ]
-      }
+     }
