@@ -32,16 +32,14 @@ output "service_account_arn" {
   value = aws_iam_role.account-role[*].arn
 }
 
+output "autoscale_group_names" {
+  value = { for key, val in local.node_group_names : key => aws_eks_node_group.main[val].resources.0.autoscaling_groups.0.name }
+}
+
 output "cluster_security_group_id" {
   value = aws_eks_cluster.main.vpc_config.0.cluster_security_group_id
 }
 
 output "node_group_names" {
   value = local.node_group_names
-  description = "node names deployed in EKS as a map; later used to access corresponding autoscale groups"
-}
-
-output "autoscale_group_names" {
-  value = { for key, val in local.node_group_names : key => aws_eks_node_group.main[val].resources.0.autoscaling_groups.0.name }
-  description = "Node and its appropriate autoscaling groups as a map"
 }

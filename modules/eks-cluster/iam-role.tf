@@ -69,3 +69,39 @@ resource "aws_iam_role_policy_attachment" "wrk-grp-AmazonEC2ContainerRegistryRea
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.wrk-grp[0].name
 }
+
+resource "aws_iam_role_policy_attachment" "wrk-grp-autoScalePolicy" {
+  count      = local.enable_worker
+  policy_arn = aws_iam_policy.autoScalePolicy[0].arn
+  role       = aws_iam_role.wrk-grp[0].name
+}
+
+#
+# IAM policy for AutoScaling permissons
+#
+resource "aws_iam_policy" "autoScalePolicy" {
+  count       = local.enable_worker
+  name        = format("%s-eksAutoScale-%s", var.cluster_name, local.random_number)
+  path        = "/"
+  description = "Enables permission for autoscaling"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+          "autoscaling:DescribeAutoScalingGroups",
+          "autoscaling:DescribeAutoScalingInstances",
+          "autoscaling:DescribeLaunchConfigurations",
+          "autoscaling:DescribeTags",
+          "autoscaling:SetDesiredCapacity",
+          "autoscaling:TerminateInstanceInAutoScalingGroup"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}

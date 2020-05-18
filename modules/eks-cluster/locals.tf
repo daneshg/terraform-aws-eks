@@ -1,7 +1,9 @@
 locals {
   random_number = random_id.this.id
   enable_worker = length(var.work_groups) > 0 ? 1 : 0 # Create worker node is work_groups block exists
+
   node_group_names = { for key, val in var.work_groups : lookup(val, "node_group_name") => lookup(val, "node_group_name") }
+
   node_groups_defaults = { for key, val in var.work_groups : lookup(val, "node_group_name") => merge({
     tags           = var.defaults["tags"]
     labels         = var.defaults["labels"]
@@ -15,5 +17,3 @@ locals {
   }, val) }
 
 }
-
-

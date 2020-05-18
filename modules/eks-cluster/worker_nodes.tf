@@ -16,6 +16,8 @@ resource "aws_eks_node_group" "main" {
 
   disk_size = each.value["disk_size"]
 
+  instance_types = [each.value["instance_types"]]
+
   labels = each.value["labels"]
 
   tags = each.value["tags"]
@@ -28,5 +30,6 @@ resource "aws_eks_node_group" "main" {
     aws_iam_role_policy_attachment.wrk-grp-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.wrk-grp-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.wrk-grp-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.wrk-grp-autoScalePolicy,
   ]
 }

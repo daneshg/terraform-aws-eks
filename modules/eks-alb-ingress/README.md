@@ -1,18 +1,16 @@
 Input parameters
+    
   
-  cluster_name: Cluster name to be Created (*required)
-  vpc_id: VPC ID to be linked with EKS cluster (*required)
-  region: AWS region to deploy EKS cluster (*required)
-  subnet_ids_list: subnet ids as a list
- 
-  service_account_arn: Service account arn; (*required) 
+    * cluster_name: Cluster name to be Created (*required)
+    * vpc_id: VPC ID to be linked with EKS cluster (*required)
+    * region: AWS region to deploy EKS cluster (*required)
+    * subnet_ids_list: subnet ids as a list
+    * service_account_arn: Service account arn; (*required) 
+    * service_port: nodePort services's --port value
+    * service_name: nodePort service name
 
-  service_port: nodePort services's --port value
-  service_name: nodePort service name
+   Example :
 
-    Example :
-
-    <pre>
       data "aws_eks_cluster" "example" {
         name = var.cluster_name
       }
@@ -29,7 +27,7 @@ Input parameters
       }
 
       module "alb-ingress" {
-        source = "./modules/eks/alb-ingress"
+        source = "./alb-ingress"
 
         vpcid               = var.vpcid
         subnet_ids_list     = ["subnet-*************", "subnet-************"]
@@ -40,4 +38,3 @@ Input parameters
         service_name        = var.service_name
       }
 
-    </pre>

@@ -3,7 +3,7 @@
 #
 
 resource "aws_security_group" "main" {
-  name        = format("%s-%s", var.security_group_name, local.random_number)
+  name        = format("%s-%s", var.cluster_name, local.random_number)
   description = "ALB Security group for EKS cluster "
   vpc_id      = var.vpcid
 
@@ -14,11 +14,9 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name        = format("%s-%s", var.security_group_name, local.random_number)
-    ClusterName = var.cluster_name
-    ManagedBy   = "terraform"
-  }
+  tags = merge({
+    Name = format("%s-%s", var.cluster_name, local.random_number)
+  }, var.tags)
 }
 
 resource "aws_security_group_rule" "alb-to-nodes" {
@@ -32,20 +30,20 @@ resource "aws_security_group_rule" "alb-to-nodes" {
 }
 
 resource "aws_security_group_rule" "http-inbound" {
-  count             = local.alb_defaults["enable_http"] ? 1 : 0
-  from_port         = local.alb_defaults["http_port"]
-  to_port           = local.alb_defaults["http_port"]
-  cidr_blocks       = [local.alb_defaults["cidr_blocks"]]
+  count             = var.enable_http ? 1 : 0
+  from_port         = var.http_port
+  to_port           = var.http_port
+  cidr_blocks       = [var.cidr_blocks]
   security_group_id = aws_security_group.main.id
   protocol          = "tcp"
   type              = "ingress"
 }
 
 resource "aws_security_group_rule" "https-inbound" {
-  count             = local.alb_defaults["enable_https"] ? 1 : 0
-  from_port         = local.alb_defaults["https_port"]
-  to_port           = local.alb_defaults["https_port"]
-  cidr_blocks       = [local.alb_defaults["cidr_blocks"]]
+  count             = var.enable_https ? 1 : 0
+  from_port         = var.https_port
+  to_port           = var.https_port
+  cidr_blocks       = [var.cidr_blocks]
   security_group_id = aws_security_group.main.id
   protocol          = "tcp"
   type              = "ingress"

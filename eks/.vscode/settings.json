@@ -1,8 +1,0 @@
-{
-  "terraform.format": {
-    
-  },
-  "terraform.languageServer": {
-    "enabled": true,
-  }
-}

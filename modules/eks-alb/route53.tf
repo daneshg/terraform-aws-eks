@@ -5,8 +5,7 @@ data "aws_route53_zone" "www" {
 }
 
 resource "aws_route53_record" "hostname" {
-  count = local.route_53_count
-
+  count   = local.route_53_count
   zone_id = data.aws_route53_zone.www[0].zone_id
   name    = local.route_53["host_name"]
   type    = "A"
