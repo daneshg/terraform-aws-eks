@@ -57,7 +57,6 @@ module "alb" {
   node_port                 = var.node_port
   enable_https              = var.enable_https
   certificate_arn           = (var.enable_https) ? data.aws_acm_certificate.acm.0.arn : ""
-  route_53                  = local.route_53
   internal                  = false
 
   route_53 = {
